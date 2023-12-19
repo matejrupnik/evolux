@@ -14,6 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'API', 'middleware' => ['guest', 'cors']], function () {
+    Route::post("login", [AuthController::class, "login"]);
+    Route::post("register", [AuthController::class, "register"]);
+});
+
+Route::group(['namespace' => 'API', 'middleware' => ['auth:sanctum', 'cors']], function () {
+    Route::post("logout", [AuthController::class, "logout"]);
+
+    Route::get('feed', [PostController::class, 'feed'])->name('feed');
+
+    Route::get('users', [UserController::class, 'index'])->name('users');
+    Route::get('users/{user}', [UserController::class, 'show'])->name('user');
+    Route::get('user', [UserController::class, 'show_current_user'])->name('current_user');
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
+
+    Route::get('users/{user}/posts', [PostController::class, 'index_users'])->name('user_posts');
+
+    Route::get('posts/{post}', [PostController::class, 'show'])->name('post');
+    Route::delete('posts/{post}', [PostController::class, 'destroy']);
+    Route::post('posts/create', [PostController::class, 'create']);
+    Route::post('posts/{post}', [PostController::class, 'update']);
 });
