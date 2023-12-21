@@ -25,4 +25,8 @@ class Post extends Model
     public function media() {
         return $this->belongsTo(Media::class);
     }
+
+    public function keywords() {
+        return $this->belongsToMany(Keyword::class);
+    }
 }
