@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: evolux
+    container_name: evolux_web
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "8005:80"
+    networks:
+      - evolux_network
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    image: mariadb:latest
+    container_name: evolux_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - evolux_network
+    env_file:
+      - .env
+
+networks:
+  evolux_network:
+
+volumes:
+  db_data:
