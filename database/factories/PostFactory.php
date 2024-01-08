@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Media;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -18,8 +20,8 @@ class PostFactory extends Factory
     {
         return [
             'caption' => fake()->text(),
-            'user_id' => rand(1, 10),
-            'media_id' => rand(1, 10)
+            'user_id' => User::inRandomOrder()->first()->id,
+            'media_id' => Media::inRandomOrder()->first()->id
         ];
     }
 }

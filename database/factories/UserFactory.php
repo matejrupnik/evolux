@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Media;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -30,7 +31,7 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'media_id' => rand(1, 10)
+            'media_id' => Media::inRandomOrder()->first()->id ?? 1
         ];
     }
 
