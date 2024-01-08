@@ -33,7 +33,7 @@ RUN rm -f /etc/nginx/sites-enabled/default && \
 
 EXPOSE 80
 
-COPY entrypoint.sh /usr/local/bin/
+COPY /scripts/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 CMD ["entrypoint.sh"]
 
