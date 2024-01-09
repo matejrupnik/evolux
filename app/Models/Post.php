@@ -14,12 +14,11 @@ class Post extends Model
         "caption",
         "created_at",
         "updated_at",
-        "user_id",
         "media_id"
     ];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function media() {

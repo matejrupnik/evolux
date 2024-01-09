@@ -20,7 +20,6 @@ class PostFactory extends Factory
     {
         return [
             'caption' => fake()->text(),
-            'user_id' => User::inRandomOrder()->first()->id,
             'media_id' => Media::inRandomOrder()->first()->id
         ];
     }
