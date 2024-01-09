@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keyword_media', function (Blueprint $table) {
+        Schema::create('keyword_post', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('keyword_id');
             $table->foreignId('post_id');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keyword_media');
+        Schema::dropIfExists('keyword_post');
     }
 };
