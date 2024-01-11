@@ -19,9 +19,10 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'caption' => $this->caption,
             'media' => MediaResource::make($this->media),
-            'user' => Route::is('post', 'feed') ? UserResource::make($this->user) : null,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'likes' => $this->users()->count(),
+            'keywords' => $this->keywords
         ];
     }
 }

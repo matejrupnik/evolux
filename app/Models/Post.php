@@ -17,7 +17,7 @@ class Post extends Model
         "media_id"
     ];
 
-    public function user() {
+    public function users() {
         return $this->belongsToMany(User::class);
     }
 

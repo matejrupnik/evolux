@@ -24,4 +24,8 @@ class Keyword extends Model
     public function posts() {
         return $this->belongsToMany(Post::class);
     }
+
+    public function latestPost() {
+        return $this->belongsToMany(Post::class)->latest()->take(1);
+    }
 }
