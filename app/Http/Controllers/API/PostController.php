@@ -30,7 +30,7 @@ class PostController extends Controller
             return response()->json(['data' => 'Error.'], 400);
         }
 
-        // zgeneriri slike
+        // zgeneriri slike pa posodob user tage
 
         return response()->json(['data' => 'User interacted with the post successfully.'], 200);
     }
