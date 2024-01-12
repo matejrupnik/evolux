@@ -16,7 +16,7 @@ class MediaResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'media_url' => asset('images/'.$this->file_name),
+            'media_url' => asset('storage/images/'.$this->file_name),
             'alt' => $this->alt,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
