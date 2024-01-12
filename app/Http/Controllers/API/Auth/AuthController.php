@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Keyword;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -59,6 +60,9 @@ class AuthController extends Controller
             "is_admin" => 0,
             'media_id' => 1
         ]);
+
+        $keywords = Keyword::whereIn('id', [1, 2, 3, 4, 5, 6, 7, 8, 9 , 10])->get();
+        $user->keywords()->attach($keywords, ['alignment' => 0.1]);
 
         $token = $user->createToken("token")->plainTextToken;
 
