@@ -15,6 +15,7 @@ class KeywordResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'posts' => PostResource::collection($this->posts()->latest()->limit(1)->get())
         ];
     }
