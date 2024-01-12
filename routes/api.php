@@ -19,12 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'API', 'middleware' => ['guest']], function () {
+Route::group(['namespace' => 'API', 'middleware' => ['guest', 'cors']], function () {
     Route::post("login", [AuthController::class, "login"]);
     Route::post("register", [AuthController::class, "register"]);
 });
 
-Route::group(['namespace' => 'API', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['namespace' => 'API', 'middleware' => ['auth:sanctum', 'cors']], function () {
     Route::post("logout", [AuthController::class, "logout"]);
 
     Route::get('feed', [PostController::class, 'feed'])->name('feed');
