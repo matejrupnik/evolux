@@ -19,7 +19,7 @@ class SearchController extends Controller
         $data = $request->get('data');
         $search = Keyword::where('keyword', 'like', "%{$data}%")->paginate(15);
 
-        if ($search['data']) {
+        if ($search->total()) {
             return KeywordResource::collection($search);
         }
 
