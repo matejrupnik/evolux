@@ -1,28 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Jobs;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\KeywordResource;
-use App\Http\Resources\PostResource;
 use App\Models\Keyword;
 use App\Models\Media;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SearchController extends Controller
+class GenerateImage implements ShouldQueue
 {
-    public function search(Request $request) {
-        $data = $request->get('data');
-        $search = Keyword::where('keyword', 'like', "%{$data}%")->paginate(15);
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-        if ($search->total()) {
-            return KeywordResource::collection($search);
-        }
+    private $keyword;
 
+    /**
+     * Create a new job instance.
+     */
+    public function __construct($keyword)
+    {
+        $this->keyword = $keyword;
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {
         $url = "http://46.164.49.18:7860";
         $file = "words_alpha.txt";
         $file_arr = file(public_path().'/'.$file);
@@ -32,7 +44,7 @@ class SearchController extends Controller
         $word = trim($file_arr[$rand_index]);
 
         $payload = [
-            "prompt" => 'realistic '.$data . ' ' . $word,
+            "prompt" => 'realistic '.$this->keyword->keyword . ' ' . $word,
             "steps" => 10,
             "height" => 1024,
             "width" => 1024
@@ -49,10 +61,9 @@ class SearchController extends Controller
 
         $media = Media::factory()->create(['file_name' => $filename]);
         $post = Post::factory()->create(['media_id' => $media->id]);
-        $newData = Keyword::create(['keyword' => $data]);
         $newKeyword = Keyword::create(['keyword' => $word]);
-        $post->keywords()->saveMany([$newData, $newKeyword]);
+        $post->keywords()->saveMany([$this->keyword, $newKeyword]);
 
-        return PostResource::make($post);
+        Log::info('Image generated.');
     }
 }
