@@ -53,6 +53,6 @@ class SearchController extends Controller
         $newKeyword = Keyword::create(['keyword' => $word]);
         $post->keywords()->saveMany([$newData, $newKeyword]);
 
-        return PostResource::collection($post);
+        return PostResource::make($post);
     }
 }
