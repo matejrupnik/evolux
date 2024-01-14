@@ -49,8 +49,9 @@ class SearchController extends Controller
 
         $media = Media::factory()->create(['file_name' => $filename]);
         $post = Post::factory()->create(['media_id' => $media->id]);
+        $newData = Keyword::create(['keyword' => $data]);
         $newKeyword = Keyword::create(['keyword' => $word]);
-        $post->keywords()->saveMany([$data, $newKeyword]);
+        $post->keywords()->saveMany([$newData, $newKeyword]);
 
         return PostResource::make($post);
     }
